@@ -61,16 +61,16 @@ class ConfigLoader
   def save_as_new_config(latest)
     config = InstallationConfig.find_or_initialize_by(name: latest[:name])
     config.value = latest[:value]
-    config.locked = latest[:locked]
+    config.locked = latest[:locked] unless latest[:locked].nil?
     config.save!
   end
 
   def reconcile_feature_config
-    config = InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')
-
-    if config
+    config = InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')
+  
+    if config.persisted?
       return false if config.value.to_s == account_features.to_s
-
+  
       compare_and_save_feature(config)
     else
       save_as_new_config({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: account_features, locked: true })

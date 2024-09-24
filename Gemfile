@@ -7,7 +7,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 7.0.8.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
-
+gem 'dotenv-rails', groups: [:development, :test]
 ##-- rails application helper gems --##
 gem 'acts-as-taggable-on'
 gem 'attr_extras'
